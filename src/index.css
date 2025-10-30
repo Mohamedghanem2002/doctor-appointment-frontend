@@ -1,0 +1,45 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f9fbfc;
+  color: #1f2937;
+}
+
+button {
+  background: #2cbcc0;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(44, 188, 192, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #22a3a7;
+  box-shadow: 0 4px 10px rgba(34, 163, 167, 0.4);
+  transform: translateY(-2px);
+}
+
+button.secondary {
+  background: #ffffff;
+  color: #2cbcc0;
+  border: 2px solid #2cbcc0;
+}
+
+button.secondary:hover {
+  background: #e6f8f8;
+  color: #22a3a7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
