@@ -17,12 +17,13 @@ function AddDepartment() {
     setForm({ ...form, [name]: value });
   };
 
+  // Handle department creation
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        "http://localhost:5000/departments/addDepartments",
+        `${import.meta.env.VITE_API_BASE_URL}/departments/addDepartments`,
         {
           method: "POST",
           headers: {

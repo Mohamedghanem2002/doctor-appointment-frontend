@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../api/api"; // Import register API function
 
 function Register() {
   const { login } = useContext(AuthContext);
@@ -14,26 +15,22 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
     try {
-      const res = await fetch("http://localhost:5000/user/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Something went wrong");
-        return;
-      }
+      // Call API function instead of fetch
+      const response = await registerUser(form);
+      const data = response.data;
 
       if (data.token) {
         login(data.token);
         navigate("/");
       }
     } catch (err) {
-      setError("Server error, please try again later.");
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Server error, please try again later.");
+      }
     }
   };
 

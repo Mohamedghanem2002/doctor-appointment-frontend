@@ -1,24 +1,22 @@
 import { ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllDoctors, BASE_URL } from "../api/api"; // Import API functions
 
 function Doctors() {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    const fetchedDoctors = async () => {
+    const fetchDoctors = async () => {
       try {
-        const res = await fetch(
-          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app/doctors/allDoctors"
-        );
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");
-        setDoctors(data.slice(0, 3));
+        const res = await getAllDoctors();
+        const data = res.data;
+        setDoctors(data.slice(0, 3)); // Show only first 3 doctors
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching doctors:", error);
       }
     };
-    fetchedDoctors();
+    fetchDoctors();
   }, []);
 
   return (
@@ -40,7 +38,7 @@ function Doctors() {
               <Link to={`/doctor/${doc._id}`}>
                 <div className="relative mb-4">
                   <img
-                    src={`http://localhost:5000/uploads/${doc?.image}`}
+                    src={`${BASE_URL}/uploads/${doc?.image}`}
                     alt={doc?.name}
                     className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-[#008e9b]/20 group-hover:scale-105 transition-transform duration-300"
                   />
