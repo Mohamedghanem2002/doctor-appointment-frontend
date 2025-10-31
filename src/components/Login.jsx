@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUser } from "../api/api"; // Import login API function
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -17,22 +16,25 @@ function Login() {
     setError(null);
 
     try {
-      // Call backend using API helper
-      const response = await loginUser(form);
-      const data = response.data;
+      const res = await fetch("http://localhost:5000/user/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-      // If login successful
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Invalid email or password");
+        return;
+      }
+
       if (data.token) {
         login(data.token);
         navigate("/");
       }
     } catch (err) {
-      // Handle server or validation errors
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Server error, please try again later.");
-      }
+      setError("Server error, please try again later.");
     }
   };
 

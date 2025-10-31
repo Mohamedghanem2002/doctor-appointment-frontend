@@ -4,9 +4,8 @@ function Departments() {
   const [departments, setDepartments] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
 
-  // Fetch all departments from the API
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/departments/allDepartments`)
+    fetch("http://localhost:5000/departments/allDepartments")
       .then((res) => res.json())
       .then((data) => {
         setDepartments(data);
@@ -32,7 +31,6 @@ function Departments() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Department Tabs */}
           <ul className="flex flex-col md:flex-col items-center md:items-start md:w-1/4 border-b-0 md:border-r border-gray-200 pb-2 md:pb-0 md:pr-4">
             {departments.map((dep) => (
               <li
@@ -54,7 +52,6 @@ function Departments() {
             ))}
           </ul>
 
-          {/* Department Details */}
           <div className="flex-1 bg-white shadow-md rounded-2xl p-6 md:p-8 transition-all duration-300">
             {departments?.map((dep) =>
               dep?._id === activeTab ? (
@@ -64,9 +61,7 @@ function Departments() {
                 >
                   {dep?.image && (
                     <img
-                      src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${
-                        dep.image
-                      }`}
+                      src={`http://localhost:5000/uploads/${dep.image}`}
                       alt={dep.name}
                       className="w-full md:w-1/2 rounded-lg shadow-md object-cover"
                     />

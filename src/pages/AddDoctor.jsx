@@ -4,7 +4,6 @@ import doctorImg from "../img/avatar-dotor.webp";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { addDoctor } from "../api/api";
 
 function AddDoctor() {
   const navigate = useNavigate();
@@ -31,8 +30,8 @@ function AddDoctor() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("name", form.name);
       formData.append("specialty", form.specialty);
@@ -40,7 +39,14 @@ function AddDoctor() {
       formData.append("description", form.description);
       if (form.image) formData.append("image", form.image);
 
-      await addDoctor(formData);
+      const res = await fetch("http://localhost:5000/doctors/addDoctors", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to add doctor");
 
       toast.success("Doctor added successfully!");
       setForm({
@@ -51,12 +57,11 @@ function AddDoctor() {
         image: null,
       });
       setPreview(null);
-      setTimeout(() => navigate("/allDoctors"), 1500);
+      setTimeout(() => {
+        navigate("/allDoctors");
+      }, 1500);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to add doctor. Please try again."
-      );
+      toast.error(error.message || "Something went wrong");
     }
   };
 
@@ -77,7 +82,6 @@ function AddDoctor() {
         className="bg-white shadow-2xl rounded-3xl p-10 w-full max-w-4xl flex flex-col md:flex-row gap-10 border border-[#2cbcc04d] transition-all duration-300 hover:shadow-[#2cbcc04d]"
         encType="multipart/form-data"
       >
-        {/* Left Side (Image Upload) */}
         <div className="flex flex-col items-center w-full md:w-1/3">
           <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-[#2cbcc0] shadow-md">
             <img
@@ -105,7 +109,6 @@ function AddDoctor() {
           />
         </div>
 
-        {/* Right Side (Form Fields) */}
         <div className="w-full md:w-2/3">
           <h2 className="text-3xl font-extrabold text-center mb-8 text-[#008e9b]">
             Add New Doctor

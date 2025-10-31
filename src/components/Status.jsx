@@ -5,19 +5,18 @@ function Status() {
   const [doctorsCount, setDoctorsCount] = useState(0);
   const [departmentsCount, setDepartmentsCount] = useState(0);
 
-  // Fetch doctors and departments count
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const doctorsRes = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/doctors/count`
+        const doctorsStats = await fetch(
+          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app//doctors/count"
         );
-        const departmentsRes = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/departments/count`
+        const departmentsStats = await fetch(
+          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app//departments/count"
         );
 
-        const doctorsData = await doctorsRes.json();
-        const departmentsData = await departmentsRes.json();
+        const doctorsData = await doctorsStats.json();
+        const departmentsData = await departmentsStats.json();
 
         setDoctorsCount(doctorsData.count || 0);
         setDepartmentsCount(departmentsData.count || 0);
@@ -28,16 +27,27 @@ function Status() {
     fetchStatus();
   }, []);
 
-  // Stats to display
   const stats = [
-    { icon: <Stethoscope size={40} />, count: doctorsCount, label: "Doctors" },
+    {
+      icon: <Stethoscope size={40} />,
+      count: doctorsCount,
+      label: "Doctors",
+    },
     {
       icon: <Building2 size={40} />,
       count: departmentsCount,
       label: "Departments",
     },
-    { icon: <FlaskRound size={40} />, count: 8, label: "Research Labs" },
-    { icon: <Award size={40} />, count: 150, label: "Awards" },
+    {
+      icon: <FlaskRound size={40} />,
+      count: 8,
+      label: "Research Labs",
+    },
+    {
+      icon: <Award size={40} />,
+      count: 150,
+      label: "Awards",
+    },
   ];
 
   return (

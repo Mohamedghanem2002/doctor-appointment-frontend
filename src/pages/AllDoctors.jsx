@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAllDoctors, deleteDoctor, BASE_URL } from "../api/api"; // Import API functions
 
 function AllDoctors() {
   const { user } = useContext(AuthContext);
   const [doctors, setDoctors] = useState([]);
 
-  // Fetch all doctors from backend
   const fetchDoctors = async () => {
     try {
-      const res = await getAllDoctors();
-      setDoctors(res.data);
+      const res = await fetch("http://localhost:5000/doctors/allDoctors");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");
+      setDoctors(data);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to fetch doctors");
+      toast.error(error.message);
     }
   };
 
@@ -23,15 +23,24 @@ function AllDoctors() {
     fetchDoctors();
   }, []);
 
-  // Delete doctor (admin only)
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
     try {
-      await deleteDoctor(id);
+      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:5000/doctors/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to delete doctor");
+
       setDoctors((prev) => prev.filter((doc) => doc._id !== id));
-      toast.success("Doctor deleted successfully");
+      toast.success("Doctor deleted successfully!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to delete doctor");
+      toast.error(error.message);
     }
   };
 
@@ -59,7 +68,7 @@ function AllDoctors() {
               <Link to={`/doctor/${doc._id}`}>
                 <div className="relative mb-4">
                   <img
-                    src={`${BASE_URL}/uploads/${doc.image}`}
+                    src={`http://localhost:5000/uploads/${doc.image}`}
                     alt={doc.name}
                     className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-[#008e9b]/20 group-hover:scale-105 transition-transform duration-300"
                   />

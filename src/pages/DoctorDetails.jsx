@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { getDoctorById, getDoctorsBySpecialty, BASE_URL } from "../api/api";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function DoctorDetails() {
   const navigate = useNavigate();
@@ -9,40 +10,36 @@ function DoctorDetails() {
   const [relatedDoctors, setRelatedDoctors] = useState([]);
 
   useEffect(() => {
-    const fetchDoctor = async () => {
+    const fetchedDoctor = async () => {
       try {
-        const res = await getDoctorById(id);
-        const doctorData = res.data;
-        setDoctor(doctorData);
-        if (doctorData?.specialty) {
-          fetchRelatedDoctors(
-            doctorData.specialty.toLowerCase(),
-            doctorData._id
-          );
-        }
+        const res = await fetch(`http://localhost:5000/doctors/${id}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch doctor");
+        setDoctor(data);
+        fetchRelatedDoctors(data?.specialty.toLowerCase(), data?._id);
       } catch (error) {
-        console.error(
-          error.response?.data?.message || "Failed to fetch doctor"
-        );
+        console.error(error);
       }
     };
 
     const fetchRelatedDoctors = async (specialty, currentId) => {
       try {
-        const res = await getDoctorsBySpecialty(specialty);
-        const filtered = res.data.filter(
+        const res = await fetch(
+          `http://localhost:5000/doctors/bySpecialty/${specialty}`
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");
+        const normalized = data.filter(
           (doc) =>
-            doc._id !== currentId && doc.specialty.toLowerCase() === specialty
+            doc?._id !== currentId && doc.specialty.toLowerCase() === specialty
         );
-        setRelatedDoctors(filtered);
+        setRelatedDoctors(normalized);
       } catch (error) {
-        console.error(
-          error.response?.data?.message || "Failed to fetch related doctors"
-        );
+        console.error(error);
       }
     };
 
-    fetchDoctor();
+    fetchedDoctor();
   }, [id]);
 
   if (!doctor)
@@ -57,7 +54,7 @@ function DoctorDetails() {
       {/* ===== Doctor Card ===== */}
       <div className="bg-white rounded-3xl shadow-2xl p-10 flex flex-col md:flex-row items-center max-w-5xl mx-auto mb-16 transition-all duration-300 hover:shadow-[#2cbcc04d]">
         <img
-          src={`${BASE_URL}/uploads/${doctor.image}`}
+          src={`http://localhost:5000/uploads/${doctor.image}`}
           alt={doctor.name}
           className="w-64 h-64 rounded-full object-cover border-4 border-[#2cbcc0] shadow-md hover:scale-105 transition-transform duration-300"
         />
@@ -100,7 +97,7 @@ function DoctorDetails() {
                 className="bg-white shadow-lg rounded-xl p-6 text-center hover:shadow-[#2cbcc04d] transition-all duration-300 hover:-translate-y-1"
               >
                 <img
-                  src={`${BASE_URL}/uploads/${doc.image}`}
+                  src={`http://localhost:5000/uploads/${doc.image}`}
                   alt={doc.name}
                   className="w-28 h-28 mx-auto rounded-full object-cover border-2 border-[#2cbcc0] mb-4"
                 />
