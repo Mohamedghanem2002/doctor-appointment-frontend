@@ -15,11 +15,14 @@ function Register() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch("http://localhost:5000/user/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app/user/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        }
+      );
 
       const data = await res.json();
 
