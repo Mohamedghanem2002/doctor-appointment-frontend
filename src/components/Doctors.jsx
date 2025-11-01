@@ -9,7 +9,7 @@ function Doctors() {
     const fetchedDoctors = async () => {
       try {
         const res = await fetch(
-          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app/doctors/allDoctors"
+          "https://doctor-appointment-backend-gamma.vercel.app/doctors/allDoctors"
         );
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");

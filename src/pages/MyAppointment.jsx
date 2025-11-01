@@ -13,7 +13,7 @@ function MyAppointment() {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          "http://localhost:5000/appointments/myAppointments",
+          "https://doctor-appointment-backend-gamma.vercel.app/appointments/myAppointments",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
@@ -34,7 +34,7 @@ function MyAppointment() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:5000/appointments/deleteAppointment/${id}`,
+        `https://doctor-appointment-backend-gamma.vercel.app/appointments/deleteAppointment/${id}`,
         {
           method: "DELETE",
           headers: {

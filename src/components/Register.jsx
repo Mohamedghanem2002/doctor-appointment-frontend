@@ -16,7 +16,7 @@ function Register() {
     setError(null);
     try {
       const res = await fetch(
-        "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app/user/register",
+        "https://doctor-appointment-backend-gamma.vercel.app/user/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

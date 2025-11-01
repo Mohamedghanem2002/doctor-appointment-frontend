@@ -15,7 +15,9 @@ function AddAppointment() {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      const res = await fetch("http://localhost:5000/doctors/allDoctors");
+      const res = await fetch(
+        "https://doctor-appointment-backend-gamma.vercel.app/doctors/allDoctors"
+      );
       const data = await res.json();
       setDoctors(data);
     };
@@ -30,7 +32,7 @@ function AddAppointment() {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      "http://localhost:5000/appointments/createAppointment",
+      "https://doctor-appointment-backend-gamma.vercel.app/appointments/createAppointment",
       {
         method: "POST",
         headers: {

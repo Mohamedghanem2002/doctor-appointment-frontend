@@ -12,7 +12,7 @@ function AllDepartments() {
     const fetchDepartments = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/departments/allDepartments"
+          "https://doctor-appointment-backend-gamma.vercel.app/departments/allDepartments"
         );
         const data = await res.json();
         if (!res.ok)
@@ -32,12 +32,15 @@ function AllDepartments() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/departments/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `https://doctor-appointment-backend-gamma.vercel.app/departments/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await res.json();
       if (!res.ok)

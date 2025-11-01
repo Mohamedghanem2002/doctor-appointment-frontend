@@ -22,7 +22,7 @@ function AddDepartment() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        "http://localhost:5000/departments/addDepartments",
+        "https://doctor-appointment-backend-gamma.vercel.app/departments/addDepartments",
         {
           method: "POST",
           headers: {

@@ -12,7 +12,9 @@ function DoctorDetails() {
   useEffect(() => {
     const fetchedDoctor = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/doctors/${id}`);
+        const res = await fetch(
+          `https://doctor-appointment-backend-gamma.vercel.app/doctors/${id}`
+        );
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch doctor");
         setDoctor(data);
@@ -25,7 +27,7 @@ function DoctorDetails() {
     const fetchRelatedDoctors = async (specialty, currentId) => {
       try {
         const res = await fetch(
-          `http://localhost:5000/doctors/bySpecialty/${specialty}`
+          `https://doctor-appointment-backend-gamma.vercel.app/doctors/bySpecialty/${specialty}`
         );
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");

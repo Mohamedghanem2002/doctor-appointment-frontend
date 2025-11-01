@@ -9,10 +9,10 @@ function Status() {
     const fetchStatus = async () => {
       try {
         const doctorsStats = await fetch(
-          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app//doctors/count"
+          "https://doctor-appointment-backend-gamma.vercel.app/doctors/count"
         );
         const departmentsStats = await fetch(
-          "https://doctor-api-backend-gj8y2zhv5-mohamedghanem2002s-projects.vercel.app//departments/count"
+          "https://doctor-appointment-backend-gamma.vercel.app/departments/count"
         );
 
         const doctorsData = await doctorsStats.json();

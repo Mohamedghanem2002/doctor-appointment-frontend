@@ -5,7 +5,9 @@ function Departments() {
   const [activeTab, setActiveTab] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/departments/allDepartments")
+    fetch(
+      "https://doctor-appointment-backend-gamma.vercel.app/departments/allDepartments"
+    )
       .then((res) => res.json())
       .then((data) => {
         setDepartments(data);

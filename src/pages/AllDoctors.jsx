@@ -10,7 +10,9 @@ function AllDoctors() {
 
   const fetchDoctors = async () => {
     try {
-      const res = await fetch("http://localhost:5000/doctors/allDoctors");
+      const res = await fetch(
+        "https://doctor-appointment-backend-gamma.vercel.app/doctors/allDoctors"
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");
       setDoctors(data);
@@ -27,12 +29,15 @@ function AllDoctors() {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/doctors/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `https://doctor-appointment-backend-gamma.vercel.app/doctors/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to delete doctor");
