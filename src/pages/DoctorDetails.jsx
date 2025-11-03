@@ -56,7 +56,7 @@ function DoctorDetails() {
       {/* ===== Doctor Card ===== */}
       <div className="bg-white rounded-3xl shadow-2xl p-10 flex flex-col md:flex-row items-center max-w-5xl mx-auto mb-16 transition-all duration-300 hover:shadow-[#2cbcc04d]">
         <img
-          src={`http://localhost:5000/uploads/${doctor.image}`}
+          src={doctor?.image}
           alt={doctor.name}
           className="w-64 h-64 rounded-full object-cover border-4 border-[#2cbcc0] shadow-md hover:scale-105 transition-transform duration-300"
         />
