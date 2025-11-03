@@ -99,7 +99,7 @@ function DoctorDetails() {
                 className="bg-white shadow-lg rounded-xl p-6 text-center hover:shadow-[#2cbcc04d] transition-all duration-300 hover:-translate-y-1"
               >
                 <img
-                  src={`http://localhost:5000/uploads/${doc.image}`}
+                  src={doc.image}
                   alt={doc.name}
                   className="w-28 h-28 mx-auto rounded-full object-cover border-2 border-[#2cbcc0] mb-4"
                 />

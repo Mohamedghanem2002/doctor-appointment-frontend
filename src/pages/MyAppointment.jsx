@@ -45,32 +45,28 @@ function MyAppointment() {
       );
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || "Failed to delete appointments");
+        throw new Error(data.message || "Failed to delete appointment");
       }
-      setAppointments((prevAppointment) => {
-        const updatedAppointments = prevAppointment.filter(
-          (app) => app._id !== id
-        );
-        return updatedAppointments;
-      });
+      setAppointments((prev) => prev.filter((a) => a._id !== id));
       toast.success("Appointment cancelled successfully");
     } catch (error) {
       console.error(error);
       alert("Error deleting appointment: " + error.message);
     }
   };
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen pt-40">
       <h2 className="text-3xl font-bold text-center mb-8 text-[#008e9b]">
         My Appointments
       </h2>
-      {error && <p className="text-red-500 text-center mb-4"> {error} </p>}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
       <div className="space-y-6 max-w-3xl mx-auto">
         {appointments.length === 0 ? (
           <p className="text-center text-gray-500">No appointments found</p>
         ) : (
-          appointments?.map((app) => (
+          appointments.map((app) => (
             <div
               key={app?._id}
               className="flex items-center justify-between bg-white shadow p-4 rounded-lg"
@@ -79,22 +75,36 @@ function MyAppointment() {
                 <img
                   src={app?.doctor?.image}
                   className="w-20 h-20 rounded-full object-cover border"
+                  alt="Doctor"
                 />
                 <div>
-                  <h3 className="text-xl font-semibold">
-                    {" "}
-                    {app.doctor?.name}{" "}
-                  </h3>
-                  <p className="text-gray-600"> {app.reason} </p>
-                  <p>{new Date(app?.date).toLocaleDateString()} </p>
+                  <h3 className="text-xl font-semibold">{app.doctor?.name}</h3>
+                  <p className="text-gray-600">{app.reason}</p>
+
+                  {/* 🕒 التاريخ والوقت */}
+                  <p className="text-gray-700 font-medium">
+                    {new Date(app?.date).toLocaleDateString()}{" "}
+                    <span className="text-[#008e9b] ml-2">
+                      {app?.time
+                        ? new Date(`1970-01-01T${app.time}`).toLocaleTimeString(
+                            [],
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )
+                        : ""}
+                    </span>
+                  </p>
                 </div>
               </div>
+
               <button
-                className="text-white"
+                className="text-white bg-red-500 p-2 rounded-full hover:bg-red-600 transition"
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Are You sure you want to cancel this appointment"
+                      "Are you sure you want to cancel this appointment?"
                     )
                   ) {
                     cancelAppointment(app?._id);

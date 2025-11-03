@@ -10,6 +10,7 @@ function AddAppointment() {
   const [form, setForm] = useState({
     doctor: "",
     date: "",
+    time: "",
     reason: "",
   });
 
@@ -46,7 +47,7 @@ function AddAppointment() {
     const data = await res.json();
     if (res.ok) {
       toast.success("Appointment added successfully!");
-      setForm({ doctor: "", date: "", reason: "" });
+      setForm({ doctor: "", date: "", time: "", reason: "" });
       navigate("/my-appointments");
     } else {
       toast.error(data.message || "Failed to create appointment");
@@ -71,6 +72,7 @@ function AddAppointment() {
           Book an Appointment
         </h2>
 
+        {/* Doctor Selection */}
         <label className="block mb-2 text-sm font-semibold text-gray-700">
           Select Doctor
         </label>
@@ -89,6 +91,7 @@ function AddAppointment() {
           ))}
         </select>
 
+        {/* Date */}
         <label className="block mb-2 text-sm font-semibold text-gray-700">
           Appointment Date
         </label>
@@ -101,6 +104,20 @@ function AddAppointment() {
           className="w-full mb-6 p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2cbcc0] transition"
         />
 
+        {/* Time */}
+        <label className="block mb-2 text-sm font-semibold text-gray-700">
+          Appointment Time
+        </label>
+        <input
+          type="time"
+          name="time"
+          value={form.time}
+          onChange={handleChange}
+          required
+          className="w-full mb-6 p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2cbcc0] transition"
+        />
+
+        {/* Reason */}
         <label className="block mb-2 text-sm font-semibold text-gray-700">
           Reason for Visit
         </label>
@@ -114,6 +131,7 @@ function AddAppointment() {
           className="w-full mb-6 p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2cbcc0] transition"
         ></textarea>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 rounded-lg font-semibold tracking-wide text-white bg-[#2cbcc0] shadow-md hover:bg-[#22a3a7] hover:shadow-lg transition-all duration-300"
