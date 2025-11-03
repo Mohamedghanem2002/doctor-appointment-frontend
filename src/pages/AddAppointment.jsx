@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function AddAppointment() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useContext(AuthContext);
-  const [doctors, setDoctors] = useState([]);
+
+  const params = new URLSearchParams(location.search);
+  const preselectedDoctor = params.get("doctorId");
+
   const [form, setForm] = useState({
-    doctor: "",
+    doctor: preselectedDoctor || "",
     date: "",
     time: "",
     reason: "",
   });
+
+  const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -131,7 +137,6 @@ function AddAppointment() {
           className="w-full mb-6 p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2cbcc0] transition"
         ></textarea>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 rounded-lg font-semibold tracking-wide text-white bg-[#2cbcc0] shadow-md hover:bg-[#22a3a7] hover:shadow-lg transition-all duration-300"

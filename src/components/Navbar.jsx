@@ -163,13 +163,19 @@ function Navbar() {
               </li>
             </>
           )}
-
           {user?.role === "user" && (
-            <li>
-              <Link to="/add-appointment" onClick={closeMenu}>
-                Add Appointment
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link to="/add-appointment" onClick={closeMenu}>
+                  Add Appointment
+                </Link>
+              </li>
+              <li>
+                <Link to="/my-appointments" onClick={closeMenu}>
+                  My Appointments
+                </Link>
+              </li>
+            </>
           )}
 
           {!user && (

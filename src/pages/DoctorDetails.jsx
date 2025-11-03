@@ -77,7 +77,9 @@ function DoctorDetails() {
 
           <div className="flex justify-center md:justify-start mt-6">
             <button
-              onClick={() => navigate("/add-appointment")}
+              onClick={() =>
+                navigate(`/add-appointment?doctorId=${doctor._id}`)
+              }
               className="bg-[#2cbcc0] text-white px-8 py-3 rounded-lg font-semibold tracking-wide shadow-md hover:bg-[#22a3a7] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
               Book Appointment
