@@ -14,31 +14,55 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-md z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 md:px-10 py-2 md:py-4 flex justify-between items-center">
-        {/* Logo */}
         <Link to="/" onClick={closeMenu}>
           <img src={logo} alt="Logo" className="w-40 md:w-48" />
         </Link>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-8 items-center text-lg font-semibold text-[#008e9b]">
-          <li>
-            <Link to="/" className="hover:text-[#2cbcc0] transition-colors">
-              Home
-            </Link>
-          </li>
-          <li>
-            <a
-              href="#services"
-              className="hover:text-[#2cbcc0] transition-colors"
-            >
-              Services
-            </a>
-          </li>
-          <li>
-            <a href="#about" className="hover:text-[#2cbcc0] transition-colors">
-              About
-            </a>
-          </li>
+          {(user?.role === "user" || !user) && (
+            <>
+              <li>
+                <a
+                  href="#home"
+                  className="hover:text-[#2cbcc0] transition-colors"
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#services"
+                  className="hover:text-[#2cbcc0] transition-colors"
+                >
+                  Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  className="hover:text-[#2cbcc0] transition-colors"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#departments"
+                  className="hover:text-[#2cbcc0] transition-colors"
+                >
+                  Our Departments
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#doctors"
+                  className="hover:text-[#2cbcc0] transition-colors"
+                >
+                  Our Doctors
+                </a>
+              </li>
+            </>
+          )}
 
           {user?.role === "admin" && (
             <>
@@ -59,9 +83,20 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link to="/all-departments" onClick={closeMenu}>
+                <Link
+                  to="/all-departments"
+                  className="hover:text-[#2cbcc0] transition"
+                >
                   All Departments
                 </Link>
+              </li>
+              <li>
+                <button
+                  onClick={logout}
+                  className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
               </li>
             </>
           )}
@@ -70,19 +105,19 @@ function Navbar() {
             <>
               <li>
                 <Link
-                  to="/add-appointment"
-                  className="hover:text-[#2cbcc0] transition"
-                >
-                  Add Appointment
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/my-appointments"
                   className="hover:text-[#2cbcc0] transition"
                 >
                   My Appointments
                 </Link>
+              </li>
+              <li>
+                <button
+                  onClick={logout}
+                  className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
               </li>
             </>
           )}
@@ -104,50 +139,52 @@ function Navbar() {
               </li>
             </>
           )}
-
-          {user && (
-            <li>
-              <button
-                onClick={logout}
-                className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
-              >
-                Logout
-              </button>
-            </li>
-          )}
         </ul>
 
-        {/* Mobile Menu Icon */}
         <button
           onClick={toggleMenu}
           className="md:hidden text-[#008e9b] hover:text-[#2cbcc0] transition"
+          aria-label="Toggle menu"
         >
-          {menuOpen ? <X size={16} /> : <Menu size={16} />}
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
       <div
         className={`absolute top-full left-0 w-full bg-gradient-to-b from-[#e0f9fb] to-white shadow-md transition-all duration-500 ease-in-out ${
           menuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         } overflow-hidden`}
       >
         <ul className="flex flex-col items-center space-y-5 py-6 text-lg font-semibold text-[#008e9b]">
-          <li>
-            <Link to="/" onClick={closeMenu}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <a href="#services" onClick={closeMenu}>
-              Services
-            </a>
-          </li>
-          <li>
-            <a href="#about" onClick={closeMenu}>
-              About
-            </a>
-          </li>
+          {(user?.role === "user" || !user) && (
+            <>
+              <li>
+                <a href="#home" onClick={closeMenu}>
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#services" onClick={closeMenu}>
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#about" onClick={closeMenu}>
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#departments" onClick={closeMenu}>
+                  Our Departments
+                </a>
+              </li>
+              <li>
+                <a href="#doctors" onClick={closeMenu}>
+                  Our Doctors
+                </a>
+              </li>
+            </>
+          )}
 
           {user?.role === "admin" && (
             <>
@@ -161,19 +198,42 @@ function Navbar() {
                   Add Department
                 </Link>
               </li>
-            </>
-          )}
-          {user?.role === "user" && (
-            <>
               <li>
-                <Link to="/add-appointment" onClick={closeMenu}>
-                  Add Appointment
+                <Link to="/all-departments" onClick={closeMenu}>
+                  All Departments
                 </Link>
               </li>
+              <li>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                  className="bg-[#2cbcc0] text-white px-6 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+
+          {user?.role === "user" && (
+            <>
               <li>
                 <Link to="/my-appointments" onClick={closeMenu}>
                   My Appointments
                 </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                  className="bg-[#2cbcc0] text-white px-6 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
               </li>
             </>
           )}
@@ -191,20 +251,6 @@ function Navbar() {
                 </Link>
               </li>
             </>
-          )}
-
-          {user && (
-            <li>
-              <button
-                onClick={() => {
-                  logout();
-                  closeMenu();
-                }}
-                className="bg-[#2cbcc0] text-white px-6 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
-              >
-                Logout
-              </button>
-            </li>
           )}
         </ul>
       </div>

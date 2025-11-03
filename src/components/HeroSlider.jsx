@@ -34,18 +34,16 @@ function HeroSlider() {
   ];
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-screen overflow-hidden " id="home">
       <Slider {...settings}>
         {slides.map((slide, index) => (
           <div key={index} className="relative w-full h-screen">
-            {/* الخلفية */}
             <img
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"
             />
 
-            {/* التعتيم والنص */}
             <div
               className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center 
               text-center text-white px-6 md:px-12 transition-all duration-500"
