@@ -63,6 +63,11 @@ function HeroSlider() {
               </p>
 
               <button
+                onClick={() =>
+                  document
+                    .getElementById("services")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
                 className="bg-[#00c3cf] hover:bg-[#00a8b2] text-white font-semibold 
                 px-8 py-3 rounded-lg shadow-md transition-transform duration-300 
                 hover:-translate-y-1"
