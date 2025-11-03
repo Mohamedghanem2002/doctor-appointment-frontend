@@ -73,7 +73,7 @@ function AllDoctors() {
               <Link to={`/doctor/${doc._id}`}>
                 <div className="relative mb-4">
                   <img
-                    src={`http://localhost:5000/uploads/${doc.image}`}
+                    src={doc?.image}
                     alt={doc.name}
                     className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-[#008e9b]/20 group-hover:scale-105 transition-transform duration-300"
                   />
