@@ -16,7 +16,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" onClick={closeMenu}>
-          <img src={logo} alt="Logo" className="w-32 md:w-36" />
+          <img src={logo} alt="Logo" className="w-40 md:w-48" />
         </Link>
 
         {/* Desktop Menu */}
@@ -122,7 +122,7 @@ function Navbar() {
           onClick={toggleMenu}
           className="md:hidden text-[#008e9b] hover:text-[#2cbcc0] transition"
         >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
