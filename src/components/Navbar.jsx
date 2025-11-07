@@ -120,7 +120,7 @@ function Navbar() {
                 </Link>
               </li>
 
-              {/* Dashboard button: لو عايز تودّي للـ login مع from=dashboard استبدل to="/login" بـ to={{ pathname: "/login" }} مع state */}
+              
               <li>
                 <Link
                   to="/login?from=dashboard"
