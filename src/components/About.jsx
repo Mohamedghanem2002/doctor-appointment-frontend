@@ -69,7 +69,15 @@ function About() {
             </li>
           </ul>
 
-          <button className="mt-6 bg-[#2cbcc0] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#22a3a7] transition-all duration-300 shadow-md">
+          <button
+            onClick={() => {
+              const el = document.getElementById("departments");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="mt-6 bg-[#2cbcc0] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#22a3a7] transition-all duration-300 shadow-md"
+          >
             Learn More
           </button>
         </div>

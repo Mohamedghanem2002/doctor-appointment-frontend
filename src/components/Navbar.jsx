@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../img/Frame 2.png";
@@ -14,62 +15,62 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-md z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 md:px-10 py-2 md:py-4 flex justify-between items-center">
+        {/* Logo */}
         <Link to="/" onClick={closeMenu}>
           <img src={logo} alt="Logo" className="w-40 md:w-48" />
         </Link>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-8 items-center text-lg font-semibold text-[#008e9b]">
           {(user?.role === "user" || !user) && (
             <>
               <li>
-                <a
-                  href="#home"
+                <Link
+                  to="/#home"
+                  onClick={closeMenu}
                   className="hover:text-[#2cbcc0] transition-colors"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
-                  className="hover:text-[#2cbcc0] transition-colors"
-                >
-                  Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
+                <Link
+                  to="/#about"
+                  onClick={closeMenu}
                   className="hover:text-[#2cbcc0] transition-colors"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#departments"
+                <Link
+                  to="/#departments"
+                  onClick={closeMenu}
                   className="hover:text-[#2cbcc0] transition-colors"
                 >
                   Our Departments
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#doctors"
+                <Link
+                  to="/#doctors"
+                  onClick={closeMenu}
                   className="hover:text-[#2cbcc0] transition-colors"
                 >
                   Our Doctors
-                </a>
+                </Link>
               </li>
             </>
           )}
 
+          {/* ADMIN LINKS */}
           {user?.role === "admin" && (
             <>
               <li>
                 <Link
                   to="/add-doctor"
                   className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
                 >
                   Add Doctor
                 </Link>
@@ -78,6 +79,7 @@ function Navbar() {
                 <Link
                   to="/add-department"
                   className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
                 >
                   Add Department
                 </Link>
@@ -86,13 +88,17 @@ function Navbar() {
                 <Link
                   to="/all-departments"
                   className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
                 >
                   All Departments
                 </Link>
               </li>
               <li>
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
                   className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
                 >
                   Logout
@@ -101,19 +107,36 @@ function Navbar() {
             </>
           )}
 
+          {/* USER LINKS */}
           {user?.role === "user" && (
             <>
               <li>
                 <Link
                   to="/my-appointments"
                   className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
                 >
                   My Appointments
                 </Link>
               </li>
+
+              {/* Dashboard button: لو عايز تودّي للـ login مع from=dashboard استبدل to="/login" بـ to={{ pathname: "/login" }} مع state */}
+              <li>
+                <Link
+                  to="/login?from=dashboard"
+                  className="bg-[#008e9b] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#2cbcc0] hover:scale-105 transition-all duration-300"
+                  onClick={closeMenu}
+                >
+                  Dashboard
+                </Link>
+              </li>
+
               <li>
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
                   className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
                 >
                   Logout
@@ -122,16 +145,22 @@ function Navbar() {
             </>
           )}
 
+          {/* GUEST (not logged in) */}
           {!user && (
             <>
               <li>
-                <Link to="/login" className="hover:text-[#2cbcc0] transition">
+                <Link
+                  to="/login"
+                  onClick={closeMenu}
+                  className="hover:text-[#2cbcc0] transition"
+                >
                   Login
                 </Link>
               </li>
               <li>
                 <Link
                   to="/register"
+                  onClick={closeMenu}
                   className="hover:text-[#2cbcc0] transition"
                 >
                   Register
@@ -141,6 +170,7 @@ function Navbar() {
           )}
         </ul>
 
+        {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
           className="md:hidden text-[#008e9b] hover:text-[#2cbcc0] transition"
@@ -150,6 +180,7 @@ function Navbar() {
         </button>
       </div>
 
+      {/* Mobile Dropdown */}
       <div
         className={`absolute top-full left-0 w-full bg-gradient-to-b from-[#e0f9fb] to-white shadow-md transition-all duration-500 ease-in-out ${
           menuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
@@ -159,31 +190,44 @@ function Navbar() {
           {(user?.role === "user" || !user) && (
             <>
               <li>
-                <a href="#home" onClick={closeMenu}>
+                <Link to="/#home" onClick={closeMenu}>
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" onClick={closeMenu}>
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#about" onClick={closeMenu}>
+                <Link to="/#about" onClick={closeMenu}>
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#departments" onClick={closeMenu}>
+                <Link to="/#departments" onClick={closeMenu}>
                   Our Departments
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#doctors" onClick={closeMenu}>
+                <Link to="/#doctors" onClick={closeMenu}>
                   Our Doctors
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link to="/my-appointments" onClick={closeMenu}>
+                  My Appointments
+                </Link>
               </li>
             </>
+          )}
+
+          {/* Dashboard for mobile (user) */}
+          {user?.role === "user" && (
+            <li>
+              <Link
+                to="/login?from=dashboard"
+                onClick={closeMenu}
+                className="bg-[#008e9b] text-white px-6 py-2 rounded-full shadow-md hover:bg-[#2cbcc0] transition-all duration-300"
+              >
+                Dashboard
+              </Link>
+            </li>
           )}
 
           {user?.role === "admin" && (
@@ -218,24 +262,17 @@ function Navbar() {
           )}
 
           {user?.role === "user" && (
-            <>
-              <li>
-                <Link to="/my-appointments" onClick={closeMenu}>
-                  My Appointments
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    logout();
-                    closeMenu();
-                  }}
-                  className="bg-[#2cbcc0] text-white px-6 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
-                >
-                  Logout
-                </button>
-              </li>
-            </>
+            <li>
+              <button
+                onClick={() => {
+                  logout();
+                  closeMenu();
+                }}
+                className="bg-[#2cbcc0] text-white px-6 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+              >
+                Logout
+              </button>
+            </li>
           )}
 
           {!user && (

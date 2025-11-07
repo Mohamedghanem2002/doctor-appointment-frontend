@@ -11,6 +11,7 @@ import DoctorDetails from "./pages/DoctorDetails";
 import MyAppointment from "./pages/MyAppointment";
 import AddDepartment from "./pages/AddDepartment";
 import AllDepartments from "./pages/AllDepartments";
+import ScrollToSection from "./components/ScrollToSection";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ScrollToSection />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {[
