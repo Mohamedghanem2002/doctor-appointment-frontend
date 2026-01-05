@@ -105,25 +105,112 @@ function Navbar() {
                         </Link>
                      )}
 
-                     {user.role === "admin" && (
-                        <Link to="/add-doctor" className="text-sm font-semibold text-gray-600 hover:text-[#2cbcc0]">
-                            + Doctor
-                        </Link>
-                     )}
+          {/* ADMIN LINKS */}
+          {user?.role === "admin" && (
+            <>
+              <li>
+                <Link
+                  to="/add-doctor"
+                  className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
+                >
+                  Add Doctor
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/add-department"
+                  className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
+                >
+                  Add Department
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/all-departments"
+                  className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
+                >
+                  All Departments
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                  className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
 
-                     <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition-colors" title="Logout">
-                         <LogOut size={20} />
-                     </button>
-                 </>
-             ) : (
-                <>
-                    <Link to="/login" className="text-gray-600 font-semibold hover:text-[#2cbcc0] transition-colors">Login</Link>
-                    <Link to="/register" className="bg-[#2cbcc0] text-white px-5 py-2.5 rounded-full font-semibold shadow-lg shadow-[#2cbcc0]/30 hover:shadow-[#2cbcc0]/50 hover:-translate-y-0.5 transition-all duration-300">
-                        Book Now
-                    </Link>
-                </>
-             )}
-        </div>
+          {/* USER LINKS */}
+          {user?.role === "user" && (
+            <>
+              <li>
+                <Link
+                  to="/my-appointments"
+                  className="hover:text-[#2cbcc0] transition"
+                  onClick={closeMenu}
+                >
+                  My Appointments
+                </Link>
+              </li>
+
+              {/* Dashboard button: لو عايز تودّي للـ login مع from=dashboard استبدل to="/login" بـ to={{ pathname: "/login" }} مع state */}
+              <li>
+                <Link
+                  to="/login?from=dashboard"
+                  className="bg-[#008e9b] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#2cbcc0] hover:scale-105 transition-all duration-300"
+                  onClick={closeMenu}
+                >
+                  Dashboard
+                </Link>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeMenu();
+                  }}
+                  className="bg-[#2cbcc0] text-white px-4 py-2 rounded-lg hover:bg-[#22a3a7] transition-all"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+
+          {/* GUEST (not logged in) */}
+          {!user && (
+            <>
+              <li>
+                <Link
+                  to="/login"
+                  onClick={closeMenu}
+                  className="hover:text-[#2cbcc0] transition"
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/register"
+                  onClick={closeMenu}
+                  className="hover:text-[#2cbcc0] transition"
+                >
+                  Register
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
 
         {/* Mobile Menu Button */}
         <button onClick={toggleMenu} className="md:hidden text-gray-700 hover:text-[#2cbcc0] transition-colors">
