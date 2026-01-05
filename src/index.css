@@ -12,32 +12,45 @@ body {
   color: #1f2937;
 }
 
-button {
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
   background: #2cbcc0;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22a3a7;
+}
+
+button {
+  background: linear-gradient(135deg, #2cbcc0 0%, #22a3a7 100%);
   color: #ffffff;
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 9999px; /* Pill shape */
   font-weight: 600;
-  letter-spacing: 0.3px;
-  box-shadow: 0 2px 6px rgba(44, 188, 192, 0.3);
-  transition: all 0.3s ease-in-out;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(44, 188, 192, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
 }
 
 button:hover {
-  background: #22a3a7;
-  box-shadow: 0 4px 10px rgba(34, 163, 167, 0.4);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #22a3a7 0%, #1d8f92 100%);
+  box-shadow: 0 6px 20px rgba(34, 163, 167, 0.5);
+  transform: translateY(-2px) scale(1.02);
 }
 
-button.secondary {
-  background: #ffffff;
-  color: #2cbcc0;
-  border: 2px solid #2cbcc0;
-}
-
-button.secondary:hover {
-  background: #e6f8f8;
-  color: #22a3a7;
+button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 html {

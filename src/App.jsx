@@ -11,10 +11,15 @@ import DoctorDetails from "./pages/DoctorDetails";
 import MyAppointment from "./pages/MyAppointment";
 import AddDepartment from "./pages/AddDepartment";
 import AllDepartments from "./pages/AllDepartments";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ScrollToSection from "./components/ScrollToSection";
 import { AnimatePresence, motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
@@ -31,45 +36,87 @@ function App() {
     duration: 0.5,
   };
 
+  const PageWrapper = ({ children }) => (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      className="min-h-screen"
+    >
+      {children}
+    </motion.div>
+  );
+
   return (
     <>
       <Navbar />
       <ScrollToSection />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          {[
-            { path: "/", element: <Home /> },
-            { path: "/login", element: <Login /> },
-            { path: "/register", element: <Register /> },
-            { path: "/add-appointment", element: <AddAppointment /> },
-            { path: "/add-doctor", element: <AddDoctor /> },
-            { path: "/my-appointments", element: <MyAppointment /> },
-            { path: "/allDoctors", element: <AllDoctors /> },
-            { path: "/doctor/:id", element: <DoctorDetails /> },
-            { path: "/add-department", element: <AddDepartment /> },
-            { path: "/all-departments", element: <AllDepartments /> },
-          ].map(({ path, element }) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <motion.div
-                  initial="initial"
-                  animate="in"
-                  exit="out"
-                  variants={pageVariants}
-                  transition={pageTransition}
-                  className="min-h-screen"
-                >
-                  {element}
-                </motion.div>
-              }
-            />
-          ))}
+          
+          {/* Public Routes */}
+          <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+          <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+          <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
+          <Route path="/allDoctors" element={<PageWrapper><AllDoctors /></PageWrapper>} />
+          <Route path="/doctor/:id" element={<PageWrapper><DoctorDetails /></PageWrapper>} />
+          <Route path="/all-departments" element={<PageWrapper><AllDepartments /></PageWrapper>} />
+          <Route path="/add-appointment" element={<PageWrapper><AddAppointment /></PageWrapper>} />
+
+          {/* Protected Routes (User & Admin) */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <PageWrapper><Dashboard /></PageWrapper>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+             path="/profile"
+             element={
+               <ProtectedRoute>
+                 <PageWrapper><Profile /></PageWrapper>
+               </ProtectedRoute>
+             }
+          />
+          <Route
+            path="/my-appointments"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <PageWrapper><MyAppointment /></PageWrapper>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Protected Routes */}
+          <Route
+            path="/add-doctor"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PageWrapper><AddDoctor /></PageWrapper>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-department"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PageWrapper><AddDepartment /></PageWrapper>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 Not Found */}
+          <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+
         </Routes>
       </AnimatePresence>
 
       <ToastContainer position="top-right" autoClose={3000} />
+      <Footer />
     </>
   );
 }

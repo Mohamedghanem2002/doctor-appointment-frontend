@@ -22,11 +22,16 @@ function AddAppointment() {
 
   useEffect(() => {
     const fetchDoctors = async () => {
-      const res = await fetch(
-        "https://doctor-appointment-backend-gamma.vercel.app/doctors/allDoctors"
-      );
-      const data = await res.json();
-      setDoctors(data);
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/doctors/allDoctors`
+        );
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch doctors");
+        setDoctors(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
     fetchDoctors();
   }, []);
@@ -38,25 +43,29 @@ function AddAppointment() {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    const res = await fetch(
-      "https://doctor-appointment-backend-gamma.vercel.app/appointments/createAppointment",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(form),
-      }
-    );
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/appointments/createAppointment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
-    const data = await res.json();
-    if (res.ok) {
-      toast.success("Appointment added successfully!");
-      setForm({ doctor: "", date: "", time: "", reason: "" });
-      navigate("/my-appointments");
-    } else {
-      toast.error(data.message || "Failed to create appointment");
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Appointment added successfully!");
+        setForm({ doctor: "", date: "", time: "", reason: "" });
+        navigate("/my-appointments");
+      } else {
+        throw new Error(data.message || "Failed to create appointment");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 

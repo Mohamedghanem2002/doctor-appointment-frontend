@@ -17,7 +17,7 @@ function Login() {
 
     try {
       const res = await fetch(
-        "https://doctor-appointment-backend-gamma.vercel.app/user/signin",
+        `${import.meta.env.VITE_API_URL}/user/signin`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

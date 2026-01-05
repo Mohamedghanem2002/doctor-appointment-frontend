@@ -6,7 +6,7 @@ function Departments() {
 
   useEffect(() => {
     fetch(
-      "https://doctor-appointment-backend-gamma.vercel.app/departments/allDepartments"
+      `${import.meta.env.VITE_API_URL}/departments/allDepartments`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -63,7 +63,7 @@ function Departments() {
                 >
                   {dep?.image && (
                     <img
-                      src={`http://localhost:5000/uploads/${dep.image}`}
+                      src={`${import.meta.env.VITE_API_URL}/uploads/${dep.image}`}
                       alt={dep.name}
                       className="w-full md:w-1/2 rounded-lg shadow-md object-cover"
                     />

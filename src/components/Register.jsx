@@ -16,7 +16,7 @@ function Register() {
     setError(null);
     try {
       const res = await fetch(
-        "https://doctor-appointment-backend-gamma.vercel.app/user/register",
+        `${import.meta.env.VITE_API_URL}/user/register`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
