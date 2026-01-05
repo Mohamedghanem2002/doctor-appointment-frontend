@@ -4,13 +4,13 @@ import { User, Mail, Phone, Save, Loader2, Camera } from "lucide-react";
 import { toast } from "react-toastify";
 
 function Profile() {
-  const { user } = useContext(AuthContext);
+  const { user, updateUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  // Mock data/state for now since we might not have a full update endpoint ready
   const [form, setForm] = useState({
     name: user?.name || "",
     email: user?.email || "",
-    phone: "", 
+    phone: user?.phone || "",
+    image: user?.image || "",
   });
 
   const handleChange = (e) => {
@@ -20,11 +20,36 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Profile updated successfully!");
-    }, 1500);
+    
+    try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user/updateUser/${user.id || user._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(form)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            toast.error(data.message || "Failed to update profile");
+            setLoading(false);
+            return;
+        }
+
+        // Update local context
+        updateUser(data.data || form); 
+        toast.success("Profile updated successfully!");
+
+    } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong");
+    } finally {
+        setLoading(false);
+    }
   };
 
   return (

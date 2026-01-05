@@ -40,8 +40,12 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => navigate("/login"), 800);
   };
 
+  const updateUser = (userData) => {
+    setUser((prev) => ({ ...prev, ...userData }));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -29,28 +29,28 @@ function Status() {
     fetchStatus();
   }, []);
 
-  // 🔥 مراقبة ظهور القسم على الشاشة
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.4 } // لما يظهر 40% من القسم
+      { threshold: 0.4 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  // 🎯 أنيميشن زيادة الأرقام
+  
   const useCountAnimation = (target, active) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
       if (!active) {
-        setCount(0); // يرجع الصفر لما نسيب القسم
+        setCount(0);
         return;
       }
       let start = 0;
-      const duration = 1200; // زمن الأنيميشن
+      const duration = 1200; 
       const increment = target / (duration / 16);
       const interval = setInterval(() => {
         start += increment;
@@ -66,7 +66,7 @@ function Status() {
     return count;
   };
 
-  // القيم اللي هنعدها
+  
   const animatedDoctors = useCountAnimation(doctorsCount, isVisible);
   const animatedDepartments = useCountAnimation(departmentsCount, isVisible);
   const animatedLabs = useCountAnimation(8, isVisible);

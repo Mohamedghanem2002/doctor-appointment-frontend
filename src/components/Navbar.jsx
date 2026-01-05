@@ -22,7 +22,10 @@ function Navbar() {
   }, []);
 
   const NavLink = ({ to, children, mobile = false }) => {
-    const isActive = location.pathname === to || (to.startsWith("/#") && location.hash === to.substring(1));
+    const isActive = 
+      to === "/" 
+        ? location.pathname === "/" && location.hash === "" 
+        : location.pathname === to || (to.startsWith("/#") && location.hash === to.substring(1));
     const isHome = location.pathname === "/";
     
     // Text Color Logic:
@@ -84,6 +87,12 @@ function Navbar() {
           <NavLink to="/#about">About</NavLink>
           <NavLink to="/all-departments">Departments</NavLink>
           <NavLink to="/allDoctors">Doctors</NavLink>
+          {user && user.role === "user" && (
+            <NavLink to="/my-appointments">My Appointments</NavLink>
+          )}
+          {user && user.role === "admin" && (
+            <NavLink to="/add-doctor">+ Doctor</NavLink>
+          )}
         </ul>
 
         {/* Desktop Auth/Action Buttons */}
@@ -98,17 +107,15 @@ function Navbar() {
 
                      {/* Profile Avatar Link */}
                      {user.role === "user" && (
-                        <Link to="/profile" className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#2cbcc0] transition-all">
+                         <Link to="/profile" className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-[#2cbcc0] transition-all">
                              <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition-shadow">
                                  <img src={user.image || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} alt="User" className="w-full h-full object-cover" />
                              </div>
-                        </Link>
+                         </Link>
                      )}
 
                      {user.role === "admin" && (
-                        <Link to="/add-doctor" className="text-sm font-semibold text-gray-600 hover:text-[#2cbcc0]">
-                            + Doctor
-                        </Link>
+                        <></>
                      )}
 
                      <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition-colors" title="Logout">
@@ -127,7 +134,7 @@ function Navbar() {
 
         {/* Mobile Menu Button */}
         <button onClick={toggleMenu} className="md:hidden text-gray-700 hover:text-[#2cbcc0] transition-colors">
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
@@ -137,6 +144,12 @@ function Navbar() {
             <NavLink to="/" mobile>Home</NavLink>
             <NavLink to="/all-departments" mobile>Departments</NavLink>
             <NavLink to="/allDoctors" mobile>Doctors</NavLink>
+            {user && user.role === "user" && (
+                <NavLink to="/my-appointments" mobile>My Appointments</NavLink>
+            )}
+            {user && user.role === "admin" && (
+                <NavLink to="/add-doctor" mobile>+ Doctor</NavLink>
+            )}
             
             <div className="w-16 h-1 bg-gray-100 rounded-full"></div>
 

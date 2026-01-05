@@ -213,15 +213,25 @@ function Dashboard() {
                <div className="space-y-6">
                     <div className="bg-gradient-to-br from-[#008e9b] to-[#2cbcc0] p-8 rounded-3xl shadow-xl text-white text-center relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -mr-10 -mt-10 blur-xl"></div>
-                         <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border-2 border-white/20">
-                            <User className="w-10 h-10 text-white" />
+                         <div className="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 p-1 backdrop-blur-sm border-2 border-white/30 shadow-lg">
+                            <img 
+                                src={user?.image || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"} 
+                                alt="User" 
+                                className="w-full h-full rounded-full object-cover" 
+                            />
                          </div>
-                         <h3 className="text-xl font-bold">{user?.name}</h3>
-                         <p className="text-blue-50 text-sm mb-6 opacity-90">{user?.email}</p>
+                         <h3 className="text-xl font-bold mb-1">{user?.name}</h3>
+                         <p className="text-blue-50 text-sm mb-4 opacity-90">{user?.email}</p>
+                         <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold backdrop-blur-sm border border-white/10 uppercase tracking-wider mb-6">
+                            {user?.role || "Patient"}
+                         </span>
                          
-                         <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
-                            <span className="block text-3xl font-bold">{appointments.length}</span>
-                            <span className="text-xs uppercase tracking-widest opacity-80">Total Bookings</span>
+                         <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10 flex justify-between items-center px-6">
+                            <div className="text-left">
+                                <span className="block text-2xl font-bold">{appointments.length}</span>
+                                <span className="text-xs uppercase tracking-widest opacity-80">Bookings</span>
+                            </div>
+                            <Calendar className="text-white/80" size={28} />
                          </div>
                     </div>
 
